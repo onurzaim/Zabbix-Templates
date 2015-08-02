@@ -1,6 +1,6 @@
 # Zabbix-Templates
 
-This is First Release of Zabbix F5 Template. This template supports BIG-IP 10000 and Amazon F5 virtual appliance.
+This is First Release of Zabbix F5 Template. This template works on Zabbix 2.4and  BIG-IP 10000 and Amazon F5 virtual appliance with version 11.
 
 By installing this template you will be able to monitor. Throughput, Active Connections and CPU utilization. 
 
