@@ -4,6 +4,6 @@ This is First Release of Zabbix F5 Template. This template supports BIG-IP 10000
 
 By installing this template you will be able to monitor. Throughput, Active Connections and CPU utilization. 
 
-CPU Alarm triggers are for 30% ,50% and 90%.
+CPU Alarm triggers are set to 30% ,50% and 90%.
 
-After version 11 of F5 devices memory information has to updated.
+After version 11 of F5 devices SNMP memory monitoring has to updated.
