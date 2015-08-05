@@ -6,4 +6,4 @@ By installing this template you will be able to monitor throughput, active Conne
 
 CPU Alarm triggers are set to 30% ,50% and 90%.
 
-After version 11 of F5 devices SNMP memory monitoring has to updated.
+After version 11 of F5 load balancer devices SNMP memory monitoring has to updated.
