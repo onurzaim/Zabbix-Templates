@@ -1,6 +1,6 @@
 # Zabbix-Templates
 
-##F5 BIG-IP 10000 Template
+##F5 BIG-IP 10000 Zabbix Template
 
 This is First Release of Zabbix F5 Template. This template works with Zabbix 2.4 and  BIG-IP 10000 and Amazon F5 virtual appliance with version 11.
 
@@ -10,7 +10,7 @@ CPU Alarm triggers are set to 30% ,50% and 90%.
 
 After version 11 of F5 load balancer devices SNMP memory monitoring has to updated.
 
-##APC Temperature Template
+##APC NetBotz Temperature Zabbix Template
 
 First release of APC NetBotz appliance.
 
