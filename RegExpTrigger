@@ -1,0 +1,6 @@
+# SNMP.Traps : Host Name
+# snmp.trap.str : item name
+#VOUTPUT=bad : String(key word) that is crossing inside a trap.
+# will send alarm if exsists.
+
+{SNMP.Traps:snmp.trap.str(VOUTPUT=bad)}=1
