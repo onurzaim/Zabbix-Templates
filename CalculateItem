@@ -1,0 +1,5 @@
+last("octo.ligtv:octo.ligtv.total",0)+last("octo.backup:octo.backup.ligtv.dom",0)+last("Concurrent.erstream.ligtv:erstream.ligtv",0)
+
+or
+
+last("octo.ligtv:octo.ligtv.ligtv.ppv",0)+last("octo.ligtv:octo.ligtv.ligtvios.ppv",0)+last("octo.ligtv:octo.ligtv.ligtvandroid.ppv",0)+last("octo.ligtv:octo.ligtv.ligtvwin.ppv",0)+last("octo.ligtv:octo.ligtv.ligtv.ppviq",0)+last("octo.ligtv:octo.ligtv.ligtvios.ppviq",0)+last("octo.ligtv:octo.ligtv.ligtvandroid.ppviq",0)+last("octo.ligtv:octo.ligtv.ligtvwin.ppviq",0)+last("octo.dom:octo.dom.ligtvclean.ppv",0)
