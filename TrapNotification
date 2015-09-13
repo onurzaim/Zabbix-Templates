@@ -1,0 +1,2 @@
+# This is a trap notification trigger
+({TRIGGER.VALUE}=0 and {SNMP.Traps:snmp.trap.nodata(60)}=0) or ({TRIGGER.VALUE}=1 and {SNMP.Traps:snmp.trap.nodata(10m)}=0)
