@@ -1,0 +1,2455 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-06-21T21:57:59Z'
+  groups:
+    -
+      uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    -
+      uuid: 91f017a2bca245e58e8a819e87aaea93
+      template: 'Docker by Zabbix agent for AMI 1'
+      name: 'Docker by Zabbix agent for AMI 1'
+      description: |
+        Cloned from zabbix-agent2 and modifed for old AMI system with zabbix-agent
+        
+        Sami Onur Zaim
+      groups:
+        -
+          name: Templates/Applications
+      items:
+        -
+          uuid: 7b24aa04a48547919d1c3a7132ecb797
+          name: 'Docker: Architecture'
+          type: DEPENDENT
+          key: docker.architecture
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Architecture
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: os
+        -
+          uuid: b4e2c1fcd3c445449b372fb618d97824
+          name: 'Docker: Cgroup driver'
+          type: DEPENDENT
+          key: docker.cgroup_driver
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.CgroupDriver
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: os
+        -
+          uuid: 3a1d326a30164238be65ab743623a023
+          name: 'Docker: Get containers'
+          key: docker.containers
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 95a9a6639c954dcbb2224b9fb96df3cd
+          name: 'Docker: Containers paused'
+          type: DEPENDENT
+          key: docker.containers.paused
+          delay: '0'
+          history: 7d
+          description: 'Total number of containers paused on this host'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.ContainersPaused
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: containers
+        -
+          uuid: 1d92c8233d3f4c8f8e9f86718eefd5d3
+          name: 'Docker: Containers running'
+          type: DEPENDENT
+          key: docker.containers.running
+          delay: '0'
+          history: 7d
+          description: 'Total number of containers running on this host'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.ContainersRunning
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: containers
+        -
+          uuid: 918af3e3044241fc9054bb8126208942
+          name: 'Docker: Containers stopped'
+          type: DEPENDENT
+          key: docker.containers.stopped
+          delay: '0'
+          history: 7d
+          description: 'Total number of containers stopped on this host'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.ContainersStopped
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: containers
+        -
+          uuid: ae59bfa9047740cca4bf5a947ae56d8d
+          name: 'Docker: Containers total'
+          type: DEPENDENT
+          key: docker.containers.total
+          delay: '0'
+          history: 7d
+          description: 'Total number of containers on this host'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Containers
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: containers
+        -
+          uuid: 2b3e1a3e78654fafb8c4cd7b74f58036
+          name: 'Docker: Containers size'
+          type: DEPENDENT
+          key: docker.containers_size
+          delay: '0'
+          history: 7d
+          units: B
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.Containers[*].SizeRw.sum()'
+          master_item:
+            key: docker.data_usage
+          tags:
+            -
+              tag: component
+              value: containers
+            -
+              tag: component
+              value: storage
+        -
+          uuid: a6ff8a5e96204de8b0455e0731aa8e74
+          name: 'Docker: CPU CFS Period enabled'
+          type: DEPENDENT
+          key: docker.cpu_cfs_period.enabled
+          delay: '0'
+          history: 7d
+          description: 'https://docs.docker.com/config/containers/resource_constraints/#configure-the-default-cfs-scheduler'
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.CpuCfsPeriod
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: 71f5b0880a214734afa323ec7a4dea18
+          name: 'Docker: CPU CFS Quota enabled'
+          type: DEPENDENT
+          key: docker.cpu_cfs_quota.enabled
+          delay: '0'
+          history: 7d
+          description: 'https://docs.docker.com/config/containers/resource_constraints/#configure-the-default-cfs-scheduler'
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.CpuCfsQuota
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: cc256de2240b4ebeb10839f3b6a21121
+          name: 'Docker: CPU Set enabled'
+          type: DEPENDENT
+          key: docker.cpu_set.enabled
+          delay: '0'
+          history: 7d
+          description: 'https://docs.docker.com/config/containers/resource_constraints/#configure-the-default-cfs-scheduler'
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.CPUSet
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: 5ae6ee0730bd46559651cbf7d4d49b64
+          name: 'Docker: CPU Shares enabled'
+          type: DEPENDENT
+          key: docker.cpu_shares.enabled
+          delay: '0'
+          history: 7d
+          description: 'https://docs.docker.com/config/containers/resource_constraints/#configure-the-default-cfs-scheduler'
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.CPUShares
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: 4a3688da4fb64e508a5996faeeddf4f9
+          name: 'Docker: Get data_usage'
+          key: docker.data_usage
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: 2bc2023d5c6643d88f5e9b1624f802bf
+          name: 'Docker: Debug enabled'
+          type: DEPENDENT
+          key: docker.debug.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Debug
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+        -
+          uuid: 74e708b2f6204130a98075304bbeec8c
+          name: 'Docker: Default runtime'
+          type: DEPENDENT
+          key: docker.default_runtime
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.DefaultRuntime
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+        -
+          uuid: 28262927873a4de49f75d15c539f67b8
+          name: 'Docker: Storage driver'
+          type: DEPENDENT
+          key: docker.driver
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          description: |
+            Docker storage driver 
+             https://docs.docker.com/storage/storagedriver/
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Driver
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: storage
+        -
+          uuid: 93dff6668de94a579e474784e5cff77f
+          name: 'Docker: Goroutines'
+          type: DEPENDENT
+          key: docker.goroutines
+          delay: '0'
+          history: 7d
+          description: 'Number of goroutines'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.NGoroutines
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+        -
+          uuid: ab80e08418f7439a9dcfaae0c7e1b27a
+          name: 'Docker: Get images'
+          key: docker.images
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: f58b9c2b48a541358284797284b5ca99
+          name: 'Docker: Images available'
+          type: DEPENDENT
+          key: docker.images.top_level
+          delay: '0'
+          history: 7d
+          description: 'Number of top-level images'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.length()
+          master_item:
+            key: docker.images
+          tags:
+            -
+              tag: component
+              value: images
+        -
+          uuid: dcdf0ac6d7a44b0c86a9257e29205731
+          name: 'Docker: Images total'
+          type: DEPENDENT
+          key: docker.images.total
+          delay: '0'
+          history: 7d
+          description: 'Number of images with intermediate image layers'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Images
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: images
+        -
+          uuid: 978b15e7c77748008d7684ad108e9f5f
+          name: 'Docker: Images size'
+          type: DEPENDENT
+          key: docker.images_size
+          delay: '0'
+          history: 7d
+          units: B
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.Images[*].Size.sum()'
+          master_item:
+            key: docker.data_usage
+          tags:
+            -
+              tag: component
+              value: images
+            -
+              tag: component
+              value: storage
+        -
+          uuid: 68923dac8d61466d8627781a70be285e
+          name: 'Docker: Get info'
+          key: docker.info
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: component
+              value: raw
+        -
+          uuid: da5cb5663cab4a4489f783bb0342f066
+          name: 'Docker: IPv4 Forwarding enabled'
+          type: DEPENDENT
+          key: docker.ipv4_forwarding.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.IPv4Forwarding
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: network
+        -
+          uuid: 7fa84cc0a944400d808fe2261fe433d5
+          name: 'Docker: Kernel memory enabled'
+          type: DEPENDENT
+          key: docker.kernel_mem.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.KernelMemory
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: 8ccd9f304e5a4e24a6c453e1fc920db4
+          name: 'Docker: Kernel memory TCP enabled'
+          type: DEPENDENT
+          key: docker.kernel_mem_tcp.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.KernelMemoryTCP
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: c1c55eb891cf40359fc188cebc2e9a51
+          name: 'Docker: Kernel version'
+          type: DEPENDENT
+          key: docker.kernel_version
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.KernelVersion
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+        -
+          uuid: 0fb0a3879ae5461a92f0b6a8a0a1bd60
+          name: 'Docker: Layers size'
+          type: DEPENDENT
+          key: docker.layers_size
+          delay: '0'
+          history: 7d
+          units: B
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.LayersSize
+          master_item:
+            key: docker.data_usage
+          tags:
+            -
+              tag: component
+              value: storage
+        -
+          uuid: 8642c01384d843b3a65ffa9175ca75dd
+          name: 'Docker: Live restore enabled'
+          type: DEPENDENT
+          key: docker.live_restore.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.LiveRestoreEnabled
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+        -
+          uuid: f2d2540400ac4457a1352b85a764c997
+          name: 'Docker: Logging driver'
+          type: DEPENDENT
+          key: docker.logging_driver
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.LoggingDriver
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+        -
+          uuid: 4a1a865d68a241b0956e1ad0dd858a77
+          name: 'Docker: Memory total'
+          type: DEPENDENT
+          key: docker.mem.total
+          delay: '0'
+          history: 7d
+          units: B
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.MemTotal
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: 7097e80cc22342d89d60371c0543fcc6
+          name: 'Docker: Memory limit enabled'
+          type: DEPENDENT
+          key: docker.mem_limit.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.MemoryLimit
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: memory
+        -
+          uuid: 64f44d98f2ac41e5bc656acde818c8a0
+          name: 'Docker: Name'
+          type: DEPENDENT
+          key: docker.name
+          delay: '0'
+          history: 1h
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.Name
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+          triggers:
+            -
+              uuid: 33330641e1d64a6db7ecea51cedee001
+              expression: 'nodata(/Docker by Zabbix agent for AMI 1/docker.name,30m)=1'
+              name: 'Docker: Failed to fetch info data'
+              event_name: 'Docker: Failed to fetch info data (or no data for 30m)'
+              priority: WARNING
+              description: 'Zabbix has not received data for items for the last 30 minutes'
+              manual_close: 'YES'
+              dependencies:
+                -
+                  name: 'Docker: Service is down'
+                  expression: 'last(/Docker by Zabbix agent for AMI 1/docker.ping)=0'
+              tags:
+                -
+                  tag: scope
+                  value: availability
+        -
+          uuid: c57a2c6358144f2d90e7d161a8d593c9
+          name: 'Docker: NCPU'
+          type: DEPENDENT
+          key: docker.ncpu
+          delay: '0'
+          history: 7d
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.NCPU
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: cpu
+        -
+          uuid: d286561c21334d20bbf5fd7cb13d0dbc
+          name: 'Docker: NEvents listener'
+          type: DEPENDENT
+          key: docker.nevents_listener
+          delay: '0'
+          history: 7d
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.NEventsListener
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+        -
+          uuid: a19417bb6b01486eaddb446850dca33e
+          name: 'Docker: Nfd'
+          type: DEPENDENT
+          key: docker.nfd
+          delay: '0'
+          history: 7d
+          description: 'Number of used File Descriptors'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.NFd
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: os
+        -
+          uuid: ad7540a8bbec4517b48b24dae7080c4d
+          name: 'Docker: OomKill disabled'
+          type: DEPENDENT
+          key: docker.oomkill.disabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.OomKillDisable
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+        -
+          uuid: 92945f62f0dd425a9e4c406680bf4811
+          name: 'Docker: Operating system'
+          type: DEPENDENT
+          key: docker.operating_system
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.OperatingSystem
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: os
+        -
+          uuid: 753ecb208a3a4a4eb7fe3f02e687e2eb
+          name: 'Docker: OS type'
+          type: DEPENDENT
+          key: docker.os_type
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.OSType
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: os
+        -
+          uuid: 11a7280d642b44b4b35cb9df61f0b566
+          name: 'Docker: Pids limit enabled'
+          type: DEPENDENT
+          key: docker.pids_limit.enabled
+          delay: '0'
+          history: 7d
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.PidsLimit
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+        -
+          uuid: 6a38a3febe6c44d9bf0b24f4ca62fcd5
+          name: 'Docker: Ping'
+          key: docker.ping
+          history: 7h
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 10m
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: health
+          triggers:
+            -
+              uuid: 25834264f1e2461b98d2392e140cabe3
+              expression: 'last(/Docker by Zabbix agent for AMI 1/docker.ping)=0'
+              name: 'Docker: Service is down'
+              priority: AVERAGE
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: availability
+        -
+          uuid: 048432f9ecc740fcb7673849cc79b736
+          name: 'Docker: Docker root dir'
+          type: DEPENDENT
+          key: docker.root_dir
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.DockerRootDir
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: system
+        -
+          uuid: 3677b7b561b64b28ab1502df4818e532
+          name: 'Docker: Server version'
+          type: DEPENDENT
+          key: docker.server_version
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.ServerVersion
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: application
+          triggers:
+            -
+              uuid: 541c28af847446998ff6741fd04a5a01
+              expression: 'last(/Docker by Zabbix agent for AMI 1/docker.server_version,#1)<>last(/Docker by Zabbix agent for AMI 1/docker.server_version,#2) and length(last(/Docker by Zabbix agent for AMI 1/docker.server_version))>0'
+              name: 'Docker: Version has changed'
+              event_name: 'Docker: Version has changed (new version: {ITEM.VALUE})'
+              priority: INFO
+              description: 'Docker version has changed. Ack to close.'
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: notice
+        -
+          uuid: c1a7ee42269e46ad88dbaf93c30a1da8
+          name: 'Docker: Swap limit enabled'
+          type: DEPENDENT
+          key: docker.swap_limit.enabled
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: 'Docker flag'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.SwapLimit
+            -
+              type: BOOL_TO_DECIMAL
+              parameters:
+                - ''
+            -
+              type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          master_item:
+            key: docker.info
+          tags:
+            -
+              tag: component
+              value: memory
+            -
+              tag: component
+              value: storage
+        -
+          uuid: 0f8df608a737453aa0bb47907c2bb317
+          name: 'Docker: Volumes size'
+          type: DEPENDENT
+          key: docker.volumes_size
+          delay: '0'
+          history: 7d
+          units: B
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - '$.Volumes[*].UsageData.Size.sum()'
+          master_item:
+            key: docker.data_usage
+          tags:
+            -
+              tag: component
+              value: storage
+      discovery_rules:
+        -
+          uuid: dbdb1c9bce5a4eb1aa975225baf5f00d
+          name: 'Containers discovery'
+          key: 'docker.containers.discovery[false]'
+          delay: 15m
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#NAME}'
+                value: '{$DOCKER.LLD.FILTER.CONTAINER.MATCHES}'
+                formulaid: A
+              -
+                macro: '{#NAME}'
+                value: '{$DOCKER.LLD.FILTER.CONTAINER.NOT_MATCHES}'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          description: |
+            Discovery for containers metrics
+            
+            Parameter:
+            true  - Returns all containers
+            false - Returns only running containers
+          item_prototypes:
+            -
+              uuid: e70974c5ff814dd8bf49ad9a8afc15d7
+              name: 'Container {#NAME}: Created'
+              type: DEPENDENT
+              key: 'docker.container_info.created["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: unixtime
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.Created
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: a60dea8231d54fa1aee4e4f71bc36bab
+              name: 'Container {#NAME}: Finished at'
+              type: DEPENDENT
+              key: 'docker.container_info.finished["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: unixtime
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.FinishedAt
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 9c16e9817d4f47148fbc5e685ab538d8
+              name: 'Container {#NAME}: Image'
+              type: DEPENDENT
+              key: 'docker.container_info.image["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$[?(@.Names[0] == "{#NAME}")].Image.first()'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: docker.containers
+              tags:
+                -
+                  tag: component
+                  value: images
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 84174ce2478f4ada82fb9b5c52b9f4af
+              name: 'Container {#NAME}: Restart count'
+              type: DEPENDENT
+              key: 'docker.container_info.restart_count["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.RestartCount
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: c844fb2a8f274ce196c31b11cb4fe728
+              name: 'Container {#NAME}: Started at'
+              type: DEPENDENT
+              key: 'docker.container_info.started["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: unixtime
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.StartedAt
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: d8951cf63df045c79a2c52afe4ae237a
+              name: 'Container {#NAME}: Dead'
+              type: DEPENDENT
+              key: 'docker.container_info.state.dead["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Docker flag'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Dead
+                -
+                  type: BOOL_TO_DECIMAL
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: e9d68ce0f75e4e59a86a59282826e6de
+              name: 'Container {#NAME}: Error'
+              type: DEPENDENT
+              key: 'docker.container_info.state.error["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Error
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+              trigger_prototypes:
+                -
+                  uuid: f4b1cd02f352451997bd524abd18a578
+                  expression: 'last(/Docker by Zabbix agent for AMI 1/docker.container_info.state.error["{#NAME}"],#1)<>last(/Docker by Zabbix agent for AMI 1/docker.container_info.state.error["{#NAME}"],#2) and length(last(/Docker by Zabbix agent for AMI 1/docker.container_info.state.error["{#NAME}"]))>0'
+                  name: 'Container {#NAME}: An error has occurred in the container'
+                  event_name: 'Container {#NAME}: Version has changed (new version: {ITEM.VALUE})'
+                  priority: WARNING
+                  description: 'Container {#NAME} has an error. Ack to close.'
+                  tags:
+                    -
+                      tag: scope
+                      value: notice
+            -
+              uuid: 3eef4a56869a4e5aa98fd1a42936d7b1
+              name: 'Container {#NAME}: Exit code'
+              type: DEPENDENT
+              key: 'docker.container_info.state.exitcode["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.ExitCode
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: e6c9ef52a4f54705adefa70bd6804814
+              name: 'Container {#NAME}: OOMKilled'
+              type: DEPENDENT
+              key: 'docker.container_info.state.oomkilled["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Docker flag'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.OOMKilled
+                -
+                  type: BOOL_TO_DECIMAL
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 57226b3c8fa6492a9e9f179974a4b53e
+              name: 'Container {#NAME}: Paused'
+              type: DEPENDENT
+              key: 'docker.container_info.state.paused["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Docker flag'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Paused
+                -
+                  type: BOOL_TO_DECIMAL
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 9991a377145741bf9277639d08a91a8c
+              name: 'Container {#NAME}: Pid'
+              type: DEPENDENT
+              key: 'docker.container_info.state.pid["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Pid
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: ad5a689616e7411b886fb821d7a870ad
+              name: 'Container {#NAME}: Restarting'
+              type: DEPENDENT
+              key: 'docker.container_info.state.restarting["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Docker flag'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Restarting
+                -
+                  type: BOOL_TO_DECIMAL
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 7ef93dcdb0a54a89982d64b79585aceb
+              name: 'Container {#NAME}: Running'
+              type: DEPENDENT
+              key: 'docker.container_info.state.running["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: 'Docker flag'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Running
+                -
+                  type: BOOL_TO_DECIMAL
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: dcfbc45ddb8e4d0db0102c7695049441
+              name: 'Container {#NAME}: Status'
+              type: DEPENDENT
+              key: 'docker.container_info.state.status["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: CHAR
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.State.Status
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1h
+              master_item:
+                key: 'docker.container_info["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 7aaa60b224a44feeaf7dfa3e961a734c
+              name: 'Container {#NAME}: Get info'
+              key: 'docker.container_info["{#NAME}"]'
+              history: '0'
+              trends: '0'
+              value_type: CHAR
+              description: 'Return low-level information about a container'
+              tags:
+                -
+                  tag: component
+                  value: raw
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 9c391c13f48e41f8b3eb47aae3d89128
+              name: 'Container {#NAME}: CPU percent usage'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_pct_usage["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: '%'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.cpu_usage.percent_usage
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: ca127b8df8af464c9c7f39e9ecb4e0bd
+              name: 'Container {#NAME}: CPU kernelmode usage per second'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.kernel.rate["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: s
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.cpu_usage.usage_in_kernelmode
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1.0E-9'
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: e4e6bb8a53bd49b48c273d302ccd77de
+              name: 'Container {#NAME}: Throttled periods'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.throttled_periods["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Number of periods when the container hits its throttling limit'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.throttling_data.throttled_periods
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: d3f2a9cf8ba847e39982714c46b3e0ad
+              name: 'Container {#NAME}: Throttled time'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.throttled_time["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: s
+              description: 'Aggregate time the container was throttled for in nanoseconds'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.throttling_data.throttled_time
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1.0E-9'
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: f71cdd5a3b39434c89c67d33523e1bb6
+              name: 'Container {#NAME}: Throttling periods'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.throttling_periods["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              description: 'Number of periods with throttling active'
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.throttling_data.periods
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 3e26c7b0a98b49c2a2abe4727f557d56
+              name: 'Container {#NAME}: CPU total usage per second'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.total.rate["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: s
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.cpu_usage.total_usage
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1.0E-9'
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 168ade33c2f742cba411e72219355077
+              name: 'Container {#NAME}: CPU usermode usage per second'
+              type: DEPENDENT
+              key: 'docker.container_stats.cpu_usage.user.rate["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: s
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.cpu_usage.usage_in_usermode
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1.0E-9'
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 5e653115d7d542b585624f0059464956
+              name: 'Container {#NAME}: Memory commit bytes'
+              type: DEPENDENT
+              key: 'docker.container_stats.memory.commit_bytes["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.memory_stats.commitbytes
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 3d50327ca67949cc9b64158db9388a85
+              name: 'Container {#NAME}: Memory commit peak bytes'
+              type: DEPENDENT
+              key: 'docker.container_stats.memory.commit_peak_bytes["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.memory_stats.commitpeakbytes
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 392fd2ca696649d0990218ca1a93f42f
+              name: 'Container {#NAME}: Memory maximum usage'
+              type: DEPENDENT
+              key: 'docker.container_stats.memory.max_usage["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.memory_stats.max_usage
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 20097b9871dd4779bbb4f294c1e925dc
+              name: 'Container {#NAME}: Memory private working set'
+              type: DEPENDENT
+              key: 'docker.container_stats.memory.private_working_set["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.memory_stats.privateworkingset
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 192677da9360490abbd02140900ba0d3
+              name: 'Container {#NAME}: Memory usage'
+              type: DEPENDENT
+              key: 'docker.container_stats.memory.usage["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.memory_stats.usage
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: memory
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 2fecaf70fb3c498cae79a43fb03d6ce4
+              name: 'Container {#NAME}: Online CPUs'
+              type: DEPENDENT
+              key: 'docker.container_stats.online_cpus["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - $.cpu_stats.online_cpus
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: cpu
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: b6a96905068844119a408d57b7f9183c
+              name: 'Container {#NAME}: Get stats'
+              key: 'docker.container_stats["{#NAME}"]'
+              history: '0'
+              trends: '0'
+              value_type: CHAR
+              description: 'Get container stats based on resource usage'
+              tags:
+                -
+                  tag: component
+                  value: raw
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: dedc7d268f934d1ca0892731590bdd0e
+              name: 'Container {#NAME}: Networks bytes received per second'
+              type: DEPENDENT
+              key: 'docker.networks.rx_bytes["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].rx_bytes.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: c48ef0f23a1342b6b71c46078e6569bf
+              name: 'Container {#NAME}: Networks incoming packets dropped per second'
+              type: DEPENDENT
+              key: 'docker.networks.rx_dropped["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].rx_dropped.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 3a992a0528464a86a2f2d43301c790e3
+              name: 'Container {#NAME}: Networks errors received per second'
+              type: DEPENDENT
+              key: 'docker.networks.rx_errors["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].rx_errors.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: dcfef17301c940dd8c2062c058340d26
+              name: 'Container {#NAME}: Networks packets received per second'
+              type: DEPENDENT
+              key: 'docker.networks.rx_packets["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].rx_packets.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: db3b8d35405c46efa8ec71724d5d5a3c
+              name: 'Container {#NAME}: Networks bytes sent per second'
+              type: DEPENDENT
+              key: 'docker.networks.tx_bytes["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].tx_bytes.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 375578ced8d34cc8b27b3bb779a8b602
+              name: 'Container {#NAME}: Networks outgoing packets dropped per second'
+              type: DEPENDENT
+              key: 'docker.networks.tx_dropped["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].tx_dropped.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 32ed90381cb444db8d6234b193a04e7d
+              name: 'Container {#NAME}: Networks errors sent per second'
+              type: DEPENDENT
+              key: 'docker.networks.tx_errors["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].tx_errors.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+            -
+              uuid: 1182e148bb994f2b85c781e71ad19c61
+              name: 'Container {#NAME}: Networks packets sent per second'
+              type: DEPENDENT
+              key: 'docker.networks.tx_packets["{#NAME}"]'
+              delay: '0'
+              history: 7d
+              value_type: FLOAT
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$.networks[*].tx_packets.sum()'
+                  error_handler: CUSTOM_VALUE
+                  error_handler_params: '0'
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'docker.container_stats["{#NAME}"]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: container
+                  value: '{#NAME}'
+          trigger_prototypes:
+            -
+              uuid: 5967957f5b254a89bf522b399247ec84
+              expression: 'last(/Docker by Zabbix agent for AMI 1/docker.container_info.state.exitcode["{#NAME}"])>0 and last(/Docker by Zabbix agent for AMI 1/docker.container_info.state.running["{#NAME}"])=0'
+              name: 'Container {#NAME}: Container has been stopped with error code'
+              opdata: 'Exit code: {ITEM.LASTVALUE1}'
+              priority: AVERAGE
+              tags:
+                -
+                  tag: scope
+                  value: availability
+          graph_prototypes:
+            -
+              uuid: 97104f325a9144bc8afe5fa12f3684b4
+              name: 'Container {#NAME}: CPU usage'
+              type: STACKED
+              graph_items:
+                -
+                  drawtype: GRADIENT_LINE
+                  color: 1A7C11
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.container_stats.cpu_usage.kernel.rate["{#NAME}"]'
+                -
+                  sortorder: '1'
+                  drawtype: GRADIENT_LINE
+                  color: 2774A4
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.container_stats.cpu_usage.user.rate["{#NAME}"]'
+                -
+                  sortorder: '2'
+                  drawtype: GRADIENT_LINE
+                  color: F63100
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.container_stats.cpu_usage.total.rate["{#NAME}"]'
+            -
+              uuid: c89b92f0e313455ab7f7cdb0e5081351
+              name: 'Container {#NAME}: Memory usage'
+              graph_items:
+                -
+                  drawtype: GRADIENT_LINE
+                  color: 1A7C11
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.container_stats.memory.usage["{#NAME}"]'
+                -
+                  sortorder: '1'
+                  drawtype: GRADIENT_LINE
+                  color: 2774A4
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.container_stats.memory.max_usage["{#NAME}"]'
+            -
+              uuid: 637f37d4fa5d40efa580ede2ca00364c
+              name: 'Container {#NAME}: Network packets'
+              graph_items:
+                -
+                  drawtype: BOLD_LINE
+                  color: 1A7C11
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.rx_packets["{#NAME}"]'
+                -
+                  sortorder: '1'
+                  drawtype: BOLD_LINE
+                  color: 2774A4
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.tx_packets["{#NAME}"]'
+                -
+                  sortorder: '2'
+                  drawtype: BOLD_LINE
+                  color: F63100
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.rx_errors["{#NAME}"]'
+                -
+                  sortorder: '3'
+                  drawtype: BOLD_LINE
+                  color: A54F10
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.tx_errors["{#NAME}"]'
+                -
+                  sortorder: '4'
+                  drawtype: BOLD_LINE
+                  color: FC6EA3
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.rx_dropped["{#NAME}"]'
+                -
+                  sortorder: '5'
+                  drawtype: BOLD_LINE
+                  color: 6C59DC
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.tx_dropped["{#NAME}"]'
+            -
+              uuid: 6980bcb8597e41f384c3534ce8fce335
+              name: 'Container {#NAME}: Network traffic'
+              graph_items:
+                -
+                  drawtype: BOLD_LINE
+                  color: 1A7C11
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.rx_bytes["{#NAME}"]'
+                -
+                  sortorder: '1'
+                  drawtype: BOLD_LINE
+                  color: 2774A4
+                  item:
+                    host: 'Docker by Zabbix agent for AMI 1'
+                    key: 'docker.networks.tx_bytes["{#NAME}"]'
+          preprocessing:
+            -
+              type: STR_REPLACE
+              parameters:
+                - '"/'
+                - '"'
+        -
+          uuid: 886b244af363442d96447d67f428c651
+          name: 'Images discovery'
+          key: docker.images.discovery
+          delay: 15m
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#NAME}'
+                value: '{$DOCKER.LLD.FILTER.IMAGE.MATCHES}'
+                formulaid: A
+              -
+                macro: '{#NAME}'
+                value: '{$DOCKER.LLD.FILTER.IMAGE.NOT_MATCHES}'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          description: 'Discovery for images metrics'
+          item_prototypes:
+            -
+              uuid: a1d003c143b846229f8b956e3f1d2438
+              name: 'Image {#NAME}: Created'
+              type: DEPENDENT
+              key: 'docker.image.created["{#ID}"]'
+              delay: '0'
+              history: 7d
+              units: unixtime
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$[?(@.Id == "{#ID}")].Created.first()'
+                -
+                  type: DISCARD_UNCHANGED_HEARTBEAT
+                  parameters:
+                    - 1d
+              master_item:
+                key: docker.images
+              tags:
+                -
+                  tag: component
+                  value: system
+                -
+                  tag: image
+                  value: '{#NAME}'
+            -
+              uuid: 100e392106bc45d3a356b0e3579e8114
+              name: 'Image {#NAME}: Size'
+              type: DEPENDENT
+              key: 'docker.image.size["{#ID}"]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                -
+                  type: JSONPATH
+                  parameters:
+                    - '$[?(@.Id == "{#ID}")].Size.first()'
+              master_item:
+                key: docker.images
+              tags:
+                -
+                  tag: component
+                  value: storage
+                -
+                  tag: image
+                  value: '{#NAME}'
+      tags:
+        -
+          tag: class
+          value: software
+        -
+          tag: target
+          value: docker
+      macros:
+        -
+          macro: '{$DOCKER.LLD.FILTER.CONTAINER.MATCHES}'
+          value: '.*'
+          description: 'Filter of discoverable containers'
+        -
+          macro: '{$DOCKER.LLD.FILTER.CONTAINER.NOT_MATCHES}'
+          value: CHANGE_IF_NEEDED
+          description: 'Filter to exclude discovered containers'
+        -
+          macro: '{$DOCKER.LLD.FILTER.IMAGE.MATCHES}'
+          value: '.*'
+          description: 'Filter of discoverable images'
+        -
+          macro: '{$DOCKER.LLD.FILTER.IMAGE.NOT_MATCHES}'
+          value: CHANGE_IF_NEEDED
+          description: 'Filter to exclude discovered images'
+      dashboards:
+        -
+          uuid: 49ff16538f4b487c8acf066a43bedcae
+          name: 'Docker overview'
+          pages:
+            -
+              widgets:
+                -
+                  type: GRAPH_CLASSIC
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: INTEGER
+                      name: source_type
+                      value: '0'
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Docker by Zabbix agent for AMI 1'
+                        name: 'Docker: Containers'
+                -
+                  type: GRAPH_CLASSIC
+                  x: '12'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: INTEGER
+                      name: source_type
+                      value: '0'
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Docker by Zabbix agent for AMI 1'
+                        name: 'Docker: Size'
+                -
+                  type: GRAPH_CLASSIC
+                  'y': '5'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: INTEGER
+                      name: source_type
+                      value: '0'
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Docker by Zabbix agent for AMI 1'
+                        name: 'Docker: Memory total'
+                -
+                  type: GRAPH_CLASSIC
+                  x: '12'
+                  'y': '5'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: INTEGER
+                      name: source_type
+                      value: '0'
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Docker by Zabbix agent for AMI 1'
+                        name: 'Docker: Goroutines'
+                -
+                  type: GRAPH_CLASSIC
+                  'y': '10'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: INTEGER
+                      name: source_type
+                      value: '0'
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Docker by Zabbix agent for AMI 1'
+                        name: 'Docker: Images'
+      valuemaps:
+        -
+          uuid: c5638db500464bdea31a573d613c956d
+          name: 'Docker flag'
+          mappings:
+            -
+              value: '0'
+              newvalue: 'False'
+            -
+              value: '1'
+              newvalue: 'True'
+        -
+          uuid: f9b893a7a6dd43a98e728260cd9ea7fe
+          name: 'Service state'
+          mappings:
+            -
+              value: '0'
+              newvalue: Down
+            -
+              value: '1'
+              newvalue: Up
+        -
+          uuid: ace222e0d8444c78a4471218fb8638b6
+          name: 'Service Status OK/NOK'
+          mappings:
+            -
+              value: '1'
+              newvalue: OK
+            -
+              value: '0'
+              newvalue: 'NOT OK'
+  graphs:
+    -
+      uuid: 4ec5d3d24ed54f098b9d495ee055c201
+      name: 'Docker: Containers'
+      graph_items:
+        -
+          drawtype: GRADIENT_LINE
+          color: 1A7C11
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.containers.running
+        -
+          sortorder: '1'
+          drawtype: BOLD_LINE
+          color: 2774A4
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.containers.paused
+        -
+          sortorder: '2'
+          drawtype: BOLD_LINE
+          color: F63100
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.containers.stopped
+        -
+          sortorder: '3'
+          drawtype: BOLD_LINE
+          color: A54F10
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.containers.total
+    -
+      uuid: 0ceebcdbc49a4aa48b8b9285acc8c8a9
+      name: 'Docker: Goroutines'
+      graph_items:
+        -
+          drawtype: GRADIENT_LINE
+          color: 1A7C11
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.goroutines
+    -
+      uuid: afb3ee834f50435bba523bae40b3ba4a
+      name: 'Docker: Images'
+      graph_items:
+        -
+          drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.images.top_level
+        -
+          sortorder: '1'
+          drawtype: BOLD_LINE
+          color: 2774A4
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.images.total
+    -
+      uuid: 3e69316e94014725ac61d7ca23340937
+      name: 'Docker: Memory total'
+      graph_items:
+        -
+          drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.mem.total
+    -
+      uuid: 54358249c2074732a0541474d5c5cf88
+      name: 'Docker: Size'
+      graph_items:
+        -
+          drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.images_size
+        -
+          sortorder: '1'
+          drawtype: BOLD_LINE
+          color: 2774A4
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.layers_size
+        -
+          sortorder: '2'
+          drawtype: BOLD_LINE
+          color: F63100
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.containers_size
+        -
+          sortorder: '3'
+          drawtype: BOLD_LINE
+          color: A54F10
+          item:
+            host: 'Docker by Zabbix agent for AMI 1'
+            key: docker.volumes_size
